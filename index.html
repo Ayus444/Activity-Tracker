@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DayFlow — Daily Activity Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Floating background orbs -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- App Shell -->
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></span>
+        <span class="logo-text">DayFlow</span>
+      </div>
+      <button class="sidebar-close" id="sidebarClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Streak Cards -->
+    <div class="streak-section">
+      <h3 class="section-label">Streaks</h3>
+      <div class="streak-grid">
+        <div class="streak-card" data-category="study">
+          <div class="streak-icon"><i class="fa-solid fa-book-open"></i></div>
+          <div class="streak-info">
+            <span class="streak-count" id="streakStudy">0</span>
+            <span class="streak-label">Study</span>
+          </div>
+          <span class="streak-flame">🔥</span>
+        </div>
+        <div class="streak-card" data-category="fitness">
+          <div class="streak-icon"><i class="fa-solid fa-dumbbell"></i></div>
+          <div class="streak-info">
+            <span class="streak-count" id="streakFitness">0</span>
+            <span class="streak-label">Fitness</span>
+          </div>
+          <span class="streak-flame">🔥</span>
+        </div>
+        <div class="streak-card" data-category="streaming">
+          <div class="streak-icon"><i class="fa-solid fa-circle-play"></i></div>
+          <div class="streak-info">
+            <span class="streak-count" id="streakStreaming">0</span>
+            <span class="streak-label">Stream</span>
+          </div>
+          <span class="streak-flame">🔥</span>
+        </div>
+        <div class="streak-card" data-category="personal">
+          <div class="streak-icon"><i class="fa-solid fa-heart"></i></div>
+          <div class="streak-info">
+            <span class="streak-count" id="streakPersonal">0</span>
+            <span class="streak-label">Personal</span>
+          </div>
+          <span class="streak-flame">🔥</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Legend -->
+    <div class="category-section">
+      <h3 class="section-label">Categories</h3>
+      <div class="category-list">
+        <div class="cat-item cat-study"><span class="cat-dot"></span>Study</div>
+        <div class="cat-item cat-fitness"><span class="cat-dot"></span>Fitness</div>
+        <div class="cat-item cat-streaming"><span class="cat-dot"></span>Streaming</div>
+        <div class="cat-item cat-personal"><span class="cat-dot"></span>Personal Life</div>
+      </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle-wrap">
+      <button class="theme-btn" id="themeToggle">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+        <span id="themeLabel">Light Mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <h1 id="currentMonthTitle">March 2026</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="nav-btn" id="prevMonth"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="today-btn" id="todayBtn">Today</button>
+        <button class="nav-btn" id="nextMonth"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </header>
+
+    <!-- Calendar Section -->
+    <section class="calendar-section">
+      <div class="calendar-weekdays">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+        <span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </section>
+
+    <!-- Selected Day Panel -->
+    <section class="day-panel" id="dayPanel">
+
+      <!-- Day Header -->
+      <div class="day-header">
+        <div class="day-title-area">
+          <h2 id="selectedDateLabel">Select a day</h2>
+          <p id="selectedDateSub"></p>
+        </div>
+        <!-- Circular Progress -->
+        <div class="circular-progress-wrap">
+          <svg class="circular-progress" viewBox="0 0 80 80" id="circularSVG">
+            <circle class="cp-track" cx="40" cy="40" r="32"/>
+            <circle class="cp-fill" cx="40" cy="40" r="32" id="cpFill"/>
+          </svg>
+          <span class="cp-label" id="cpLabel">0%</span>
+        </div>
+      </div>
+
+      <!-- Linear Progress Bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <span class="progress-text" id="progressText">0 of 0 tasks done</span>
+      </div>
+
+      <!-- Task List -->
+      <div class="task-list" id="taskList">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon"><i class="fa-regular fa-calendar-plus"></i></div>
+          <p>No tasks yet. Add one below!</p>
+        </div>
+      </div>
+
+      <!-- Add Task Button -->
+      <button class="add-task-btn" id="addTaskBtn">
+        <i class="fa-solid fa-plus"></i>
+        <span>Add Task</span>
+      </button>
+
+    </section>
+  </main>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card" id="modalCard">
+    <div class="modal-header">
+      <h3 id="modalTitle">New Task</h3>
+      <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Task Name</label>
+        <input type="text" id="taskName" placeholder="e.g. Study Physics" maxlength="80" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Time</label>
+          <input type="time" id="taskTimeStart" value="08:00" />
+        </div>
+        <div class="form-group">
+          <label>End Time</label>
+          <input type="time" id="taskTimeEnd" value="09:00" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <div class="category-picker" id="categoryPicker">
+          <button class="cat-btn cat-study active" data-cat="study"><i class="fa-solid fa-book-open"></i> Study</button>
+          <button class="cat-btn cat-fitness" data-cat="fitness"><i class="fa-solid fa-dumbbell"></i> Fitness</button>
+          <button class="cat-btn cat-streaming" data-cat="streaming"><i class="fa-solid fa-circle-play"></i> Streaming</button>
+          <button class="cat-btn cat-personal" data-cat="personal"><i class="fa-solid fa-heart"></i> Personal</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes <span class="optional">(optional)</span></label>
+        <textarea id="taskNotes" placeholder="Any extra details..." rows="2"></textarea>
+      </div>
+      <div class="form-group" id="moveDayGroup" style="display:none">
+        <label>Move to Date</label>
+        <input type="date" id="moveToDate" />
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" id="moveTaskBtn" style="display:none"><i class="fa-solid fa-calendar-days"></i> Move Day</button>
+      <button class="btn-secondary" id="cancelBtn">Cancel</button>
+      <button class="btn-primary" id="saveTaskBtn"><i class="fa-solid fa-check"></i> Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drag ghost -->
+<div class="drag-ghost" id="dragGhost"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
